@@ -36,22 +36,28 @@ $postAddUrl = Router::url(array('controller' => 'posts', 'action' => 'add'));
 
 $postViewUrl = Router::url(array('controller' => 'posts', 'action' => 'view'));
 
+$postEditUrl = Router::url(array('controller' => 'posts', 'action' => 'edit'));
+
 
 $scriptJS = $this->Html->scriptBlock(
 <<<JS
 	$(document).ready(function(){
 		$('#PostIndexForm').on('submit',function(event){
 			event.preventDefault();
+			var title = $('#PostIndexForm').find('input[type=text]').val();
+			var content = $('#PostIndexForm').find('textarea').val();
+			var post = { Post: { title: title, body:content }}
 			$.ajax(
 			{
 				async:true,
-			 	data:$('#PostIndexForm').serialize(),
+				contentType: "application/json",
+			 	data:JSON.stringify(post),
 			  	dataType:'html',
 			  	success:function (data, textStatus) {
 			  		add_new_row(data);
 			  	},
 			  	type:'POST',
-			  	url:"$postAddUrl"
+			  	url:"$postAddUrl.json"
 			  }); 
 
 			$('#myPostModal').modal('hide');
@@ -63,8 +69,8 @@ $scriptJS = $this->Html->scriptBlock(
 	});
 
 	var add_new_row = function(data){
-		console.log(data);
-		$('#postsTable').append('<tr><td>'+ data.Post['id'] +'</td><td>'+ data.Post.title +'</td><td>'+ data.Post.created +'</td><td>asads</td><td>asdas</td></tr>');
+		response = JSON.parse(data);
+		$('#postsTable').append('<tr><td>'+ response.Post.id +'</td><td>'+ '<a href="$postViewUrl/' + response.Post.id + '">' + response.Post.title + '</a>' +'</td><td>'+ response.Post.created +'</td><td><a href="$postEditUrl/'+ response.Post.id +'">edit</a></td><td>asdas</td></tr>');
 	};
 JS
 );

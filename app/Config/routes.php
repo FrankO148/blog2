@@ -45,4 +45,4 @@
  */
 	require CAKE . 'Config' . DS . 'routes.php';
 
-	Router::parseExtensions();
+	Router::parseExtensions('json');

@@ -24,13 +24,8 @@ class PostsController extends AppController {
 				if ($this->request->is('ajax')) {
 					$post_id = $this->Post->getLastInsertId();
 					$created_post = $this->Post->findById($post_id);
-					$json_post = json_encode($created_post);
-					$this->response->type('json');
-					$this->response->body($json_post);
-					return $this->response;
-					/*$this->set('created_post', $created_post);
-					return $this->render('added_post');*/
-
+					$this->set('created_post', $created_post);
+					$this->set('_serialize', 'created_post');
 				} else {
 					return $this->redirect(array('action' => 'index'));	
 				}	

@@ -33,5 +33,5 @@ App::uses('Controller', 'Controller');
 class AppController extends Controller {
 	public $helpers = array('Html', 'Form', 'Flash','Js');
 
-	public $components = array('Flash','RequestHandler');
+	public $components = array('Flash','RequestHandler','DebugKit.Toolbar');
 }
