@@ -38,6 +38,8 @@ $postViewUrl = Router::url(array('controller' => 'posts', 'action' => 'view'));
 
 $postEditUrl = Router::url(array('controller' => 'posts', 'action' => 'edit'));
 
+$postDeleteUrl = Router::url(array('controller' => 'posts', 'action' => 'delete'));
+
 
 $scriptJS = $this->Html->scriptBlock(
 <<<JS
@@ -47,6 +49,7 @@ $scriptJS = $this->Html->scriptBlock(
 			var title = $('#PostIndexForm').find('input[type=text]').val();
 			var content = $('#PostIndexForm').find('textarea').val();
 			var post = { Post: { title: title, body:content }}
+			console.log(post);
 			$.ajax(
 			{
 				async:true,
@@ -70,8 +73,14 @@ $scriptJS = $this->Html->scriptBlock(
 
 	var add_new_row = function(data){
 		response = JSON.parse(data);
-		$('#postsTable').append('<tr><td>'+ response.Post.id +'</td><td>'+ '<a href="$postViewUrl/' + response.Post.id + '">' + response.Post.title + '</a>' +'</td><td>'+ response.Post.created +'</td><td><a href="$postEditUrl/'+ response.Post.id +'">edit</a></td><td>asdas</td></tr>');
+		$('#postsTable').append('<tr><td>'+ response.Post.id +'</td><td>'+ '<a href="$postViewUrl/' + response.Post.id + '">' + response.Post.title + '</a>' +'</td><td>'+ response.Post.created +'</td><td><a href="$postEditUrl/'+ response.Post.id +'">edit</a></td><td></td></tr>');
 	};
+
+	var add_delete_link = function(id_post ){
+		var post_name = 'post_' + id_post; 
+		console.log(post_name);
+		return '<form action="$postDeleteUrl/ '+ id_post +'" name="' + post_name +'" id="' + post_name + '" style="display:none;" method="post"><input type="hidden" name="_method" value="POST"></form><a href="#" onclick="if (confirm(&quot;Are you sure?&quot;)) { $('#' + post_name).submit(); } event.returnValue = false; return false;">delete</a>'
+	}
 JS
 );
 ?>
