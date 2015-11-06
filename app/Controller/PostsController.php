@@ -35,7 +35,7 @@ class PostsController extends AppController {
 			$this->Flash->error(__('Unable to add your post.'));
 		
 	}
-
+// funcion edit
 	public function edit($id = null) {
 		if (!$id) {
 			throw new NotFoundException(__('Invalid post'));
@@ -69,4 +69,4 @@ class PostsController extends AppController {
 		return $this->redirect(array('action' => 'index'));
 	}
 }
-//prueba
+// otra prueba
